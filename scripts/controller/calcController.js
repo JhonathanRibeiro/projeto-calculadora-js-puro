@@ -53,8 +53,26 @@ class CalcController {
         return (['+','-','*','%','/'].indexOf(value) > -1);
     }
 
+    pushOperation(value) {
+        this._operation.push(value);
+
+        if(this._operation.length > 3) {
+            this.calc();
+            console.log(this._operation);
+        }
+    }
+
+    calc() {
+        //remove o ultimo elemento do array
+        let last = this._operation.pop();
+        //converte e unifica a operação em uma string...
+        //funcao eval soma os valores
+        let result = eval(this._operation.join(""));
+
+        this._operation = [result, last]
+    }
+
     addOperation(value) {
-        console.log('addOperation ', this.getLastOperation())
         //verifica se a ultima informação do array não é um número
         if(isNaN(this.getLastOperation())){
             //String
@@ -64,16 +82,21 @@ class CalcController {
             } else if (isNaN(value)){
                 console.log(value)
             } else {
-                this._operation.push(value);
+                this.pushOperation(value);
             }
 
         } else {
-            //Converte para string e depois concatena o value(tbm convertido em string)
-            let newValue = this.getLastOperation().toString() + value.toString();
-            this.setLastOperation(parseInt(newValue));
-        }
 
-        console.log(this._operation)
+            if(this.isOperator(value)) {
+                this.pushOperation(value);
+            } else {
+                //Converte para string e depois concatena o value(tbm convertido em string)
+                let newValue = this.getLastOperation().toString() + value.toString();
+                this.setLastOperation(parseInt(newValue));
+
+                //Atualizar display
+            }
+        }
     }
 
     //Motodo default 
