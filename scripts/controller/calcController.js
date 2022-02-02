@@ -72,6 +72,12 @@ class CalcController {
         this._operation = [result, last]
     }
 
+
+    //mostra o ultimo numero  no display
+    setLastNumberToDisplay() {
+        
+    }
+
     addOperation(value) {
         //verifica se a ultima informação do array não é um número
         if(isNaN(this.getLastOperation())){
@@ -95,6 +101,7 @@ class CalcController {
                 this.setLastOperation(parseInt(newValue));
 
                 //Atualizar display
+                this.setLastNumberToDisplay();
             }
         }
     }
