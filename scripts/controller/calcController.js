@@ -69,13 +69,24 @@ class CalcController {
         //funcao eval soma os valores
         let result = eval(this._operation.join(""));
 
-        this._operation = [result, last]
+        this._operation = [result, last];
+        //Atualiza o display depois do calculo
+        this.setLastNumberToDisplay();
     }
 
 
     //mostra o ultimo numero  no display
     setLastNumberToDisplay() {
-        
+        let lastNumber;
+
+        for(let i = this._operation.length -1; i >= 0; i--) {
+            if(!this.isOperator(this._operation[i])) {
+                lastNumber = this._operation[i];
+                break;
+            }
+        }
+        //passando o numero para o display
+        this.displayCalc = lastNumber;
     }
 
     addOperation(value) {
@@ -89,6 +100,7 @@ class CalcController {
                 console.log(value)
             } else {
                 this.pushOperation(value);
+                this.setLastNumberToDisplay();
             }
 
         } else {
